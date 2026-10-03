@@ -1,0 +1,22 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "azure-resiliency-agent",
+  "version": "0.1.0",
+  "description": "Assess and improve the resiliency of Azure workloads from GitHub Copilot.",
+  "author": {
+    "name": "Microsoft Azure",
+    "url": "https://azure.microsoft.com"
+  },
+  "homepage": "https://learn.microsoft.com/azure/copilot/resiliency-agent",
+  "repository": "https://github.com/Azure/azure-resiliency-agent",
+  "license": "MIT",
+  "keywords": [
+    "azure",
+    "resiliency",
+    "availability-zones",
+    "architecture",
+    "bicep",
+    "arm",
+    "terraform"
+  ]
+}

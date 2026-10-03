@@ -1,0 +1,22 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "azure-resiliency-agent": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@azure/mcp@3.0.0-beta.43",
+        "server",
+        "start",
+        "--transport",
+        "stdio",
+        "--mode",
+        "all",
+        "--namespace",
+        "resiliencyagent",
+        "--disable-proxy-tools"
+      ]
+    }
+  }
+}
