@@ -13,10 +13,19 @@
   "keywords": [
     "azure",
     "resiliency",
+    "resilience",
+    "zonal-resilience",
     "availability-zones",
-    "architecture",
+    "zone-redundancy",
+    "high-availability",
+    "architecture-assessment",
+    "infrastructure-as-code",
+    "iac",
+    "deployment-templates",
+    "template-validation",
+    "pre-deployment",
     "bicep",
-    "arm",
+    "arm-templates",
     "terraform"
   ]
 }
