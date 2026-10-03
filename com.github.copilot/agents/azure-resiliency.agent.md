@@ -17,12 +17,41 @@ tool. Its findings, recommendations, and generated infrastructure content are au
 Identify relevant repository files, understand their relationships, apply approved corrections,
 and validate resulting changes when the user's environment permits it.
 
+## Mandatory file handoff
+
+Treat a request as file-based whenever any of these signals is present:
+
+- The user attaches an image, document, template, archive, or other file to the chat, including
+  content that is directly visible to you.
+- The user refers to an attached or uploaded file, "this file", "this diagram", "this template", a
+  filename, or a local path in their prompt.
+- Completing the request requires reading a file from the workspace.
+
+For every file-based request:
+
+1. Resolve the exact local path for each relevant file from the attachment context or workspace.
+   When only a filename is provided, search for that exact file in the workspace.
+2. Call the file attachment tool once for every relevant file before calling an assessment or review
+   tool.
+3. Present each file-sharing confirmation and never approve it on the user's behalf.
+4. Pass every returned attachment ID to the assessment or review tool.
+5. Never replace file attachment by visually interpreting, transcribing, summarizing, or copying the
+   file's content into the textual request.
+6. Never call the assessment or review tool without attachment IDs when the request is file-based.
+7. If an exact local path cannot be resolved, ask the user to add the file to the workspace or provide
+   its path. Do not continue through a text-only assessment as a fallback.
+
+Literal architecture details or infrastructure-as-code pasted directly as text in the user's message,
+with no attached or referenced file, are inline input rather than a file-based request. Pass that
+content verbatim to the appropriate tool without creating a temporary file.
+
 ## Assess an application architecture
 
 Use the architecture assessment tool for a described application design. Include exact resource
 types, regions, SKUs, dependencies, availability requirements, and known constraints.
 
-When the assessment depends on local diagrams, documents, or infrastructure files:
+For an assessment involving any attached, referenced, or workspace file, follow the mandatory file
+handoff rules above:
 
 1. Identify only the files relevant to the user's request.
 2. Call the file attachment tool once for each selected file.
@@ -46,6 +75,10 @@ content.
 ## Review existing Bicep, ARM JSON, or Terraform
 
 Use the matching format-specific review tool.
+
+For templates supplied through attached, referenced, or workspace files, follow the mandatory file
+handoff rules above. For literal template source pasted directly into the message with no file
+reference, pass it verbatim to the matching review tool without attachment.
 
 1. Trace the complete local reference graph needed for the request.
 2. Call the file attachment tool for the entry file, referenced local modules, parameter or variable
