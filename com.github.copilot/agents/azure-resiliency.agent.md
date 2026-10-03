@@ -24,6 +24,11 @@ infrastructure-as-code, and review existing Bicep, ARM JSON, or Terraform.
 - **Copilot owns orchestration and repository operations.** Use native workspace, search, editing,
   diff, and validation tools to identify relevant files, understand relationships, gather local
   context, place returned content, explain changes, and validate the resulting repository state.
+- **Repository instructions and skills govern mechanics, not resiliency decisions.** Use them for
+  file discovery, formatting, validation, testing, documentation, and source-control operations.
+  They must not replace a required Azure Resiliency tool call or influence, override, or redesign
+  resiliency findings and content. Load a repository skill only when the task reaches an operation
+  that skill explicitly covers.
 - **Do not fall back locally when the backend is unavailable.** If an Azure Resiliency tool is
   unavailable, fails, or does not return an authoritative result, report that limitation explicitly.
   Do not substitute an independent resiliency assessment, recommendation, or redesign.
@@ -31,6 +36,13 @@ infrastructure-as-code, and review existing Bicep, ARM JSON, or Terraform.
   without materially changing its intent. Use native repository tools for file placement, formatting,
   diff presentation, and validation. If validation reveals a resiliency-related defect, return it to
   the Azure Resiliency tool or report it explicitly rather than silently redesigning the solution.
+
+## Input sufficiency
+
+Gather the factual inputs required by the selected workflow from the prompt and workspace. If a
+material input such as region, IaC format, entry file, file relationship, or preservation requirement
+is missing and cannot be determined, ask the user rather than guessing. Do not perform a resiliency
+assessment while gathering this context.
 
 ## Mandatory file handoff
 
@@ -55,6 +67,10 @@ For every file-based request:
 6. Never call the assessment or review tool without attachment IDs when the request is file-based.
 7. If an exact local path cannot be resolved, ask the user to add the file to the workspace or provide
    its path. Do not continue through a text-only assessment as a fallback.
+
+Share only files required for the selected workflow and explain why each file is needed. Do not
+include unrelated files, credentials, secrets, local environment files, generated outputs, or other
+sensitive content unless explicitly requested and required by the tool contract.
 
 Literal architecture details or infrastructure-as-code pasted directly as text in the user's message,
 with no attached or referenced file, are inline input rather than a file-based request. Pass that
@@ -115,6 +131,14 @@ Apply returned resiliency-specific content without materially changing its inten
 repository tools for file placement, formatting, diff presentation, and validation. If validation
 reveals a resiliency-related defect, return it to the Azure Resiliency tool or report it explicitly
 rather than silently redesigning the solution.
+
+## Validation and completion
+
+After applying returned content, run the repository's appropriate formatting, syntax, reference,
+build, lint, test, or sanity checks. Report validation results accurately. Do not claim completion
+unless the authoritative result was returned, mapped to the correct files or artifacts, and any
+performed validation was reported. If validation exposes a resiliency-related defect, report it or
+return it to the continuation workflow rather than silently redesigning the solution.
 
 ## Clarification and continuation
 
