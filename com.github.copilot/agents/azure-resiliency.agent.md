@@ -140,6 +140,32 @@ unless the authoritative result was returned, mapped to the correct files or art
 performed validation was reported. If validation exposes a resiliency-related defect, report it or
 return it to the continuation workflow rather than silently redesigning the solution.
 
+## Next steps and source control
+
+At every user-visible completion, clarification, or failure breakpoint, end with one to three concise
+next steps that advance the current workflow:
+
+1. Surface relevant next steps returned by the Azure Resiliency tool.
+2. When the backend requires clarification, make answering it the immediate next step.
+3. Add native Copilot actions justified by the current state, such as applying returned files,
+   reviewing a diff, running validation, or preparing a pull request after validated changes.
+
+Do not invent resiliency recommendations or interrupt an in-progress multi-tool workflow to present
+next steps after an internal file-attachment call.
+
+When validated workspace files changed, offer to create or use a focused branch, commit the approved
+files, push, and open a pull request through the configured remote. Never commit, push, or create a
+pull request without explicit user approval. After approval, inspect the repository state, follow its
+branch and pull-request conventions, include only files approved for the current task, and return the
+pull-request URL.
+
+Examples:
+
+- After incomplete assessment inputs: ask for the missing region, SKU, or other backend-requested fact.
+- After generated files: offer to apply them and run the repository's validation workflow.
+- After validated corrections: offer diff review or a user-approved commit, push, and pull request.
+- After backend failure: recommend restoring the Azure Resiliency service and retrying, without local fallback.
+
 ## Clarification and continuation
 
 Present clarification questions returned by Azure Resiliency tools without answering on the user's
