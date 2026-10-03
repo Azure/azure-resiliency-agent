@@ -4,51 +4,75 @@
 [![Agent Plugins](https://img.shields.io/badge/format-Agent%20Plugins%201.0-5b9bff.svg)](https://agent-plugins.org/)
 [![Microsoft Azure](https://img.shields.io/badge/Microsoft-Azure-0078d4.svg)](https://azure.microsoft.com/)
 
-The Azure Resiliency Agent plugin brings Azure's Start Resilient experience into GitHub Copilot.
-It helps customers assess application architectures, generate new zone-resilient
+Use Azure Resiliency Agent to validate deployment templates and identify resiliency gaps before
+deployment. The plugin helps you assess an Azure application architecture, generate new resilient
 infrastructure-as-code, and review existing Bicep, ARM JSON, and Terraform.
 
-The plugin uses the Azure MCP Server to invoke the authoritative Azure Resiliency Agent while
-preserving native GitHub Copilot repository, editing, validation, and source-control workflows.
+[Learn more about Azure Resiliency Agent in GitHub Copilot.](https://aka.ms/AzureResiliencyAgentInGithubCopilot)
 
-## Capabilities
+## Capabilities and example prompts
 
-| Capability | Outcome |
-| --- | --- |
-| Architecture assessment | Assess a described Azure application architecture for availability-zone resiliency |
-| IaC generation | Generate new resilient Bicep, ARM JSON, or Terraform |
-| Bicep review | Review and correct existing Bicep and its local modules |
-| ARM review | Review and correct existing ARM JSON and parameter files |
-| Terraform review | Review and correct existing Terraform modules and variables |
-| Local file handoff | Share selected local files with explicit user approval and bounded local processing |
+| Capability | Outcome | Example prompt |
+| --- | --- | --- |
+| Architecture assessment | Assess a described Azure application architecture for availability-zone resiliency | `Assess this application architecture for availability-zone resiliency.` |
+| IaC generation | Generate new resilient Bicep, ARM JSON, or Terraform | `Generate zone-resilient Bicep for this application architecture in East US 2.` |
+| Bicep review | Review and correct existing Bicep and its local modules | `Review main.bicep, its local modules, and parameter file for availability-zone resiliency.` |
+| ARM review | Review and correct existing ARM JSON and parameter files | `Review this ARM template and parameter file for resiliency gaps.` |
+| Terraform review | Review and correct existing Terraform modules and variables | `Review this Terraform root module and its local child modules for zone resiliency.` |
+| File-based assessment | Use selected architecture and infrastructure files after explicit approval | `Use architecture.md and the referenced deployment files to assess this application.` |
 
-## How it works
+## Install from the Awesome Copilot marketplace
 
-1. Select **AzureResiliencyAgent** in GitHub Copilot.
-2. Describe the architecture or infrastructure-as-code task.
-3. The agent invokes the matching Azure Resiliency tool.
-4. If local files are required, the plugin asks for approval before each file is read and prepared.
-5. The hosted Azure Resiliency Agent returns authoritative findings, reports, and corrected content.
-6. GitHub Copilot can apply approved corrections through its native diff and Keep/Undo experience.
+### Visual Studio Code
 
-## Prerequisites
+1. Open the **Extensions** view.
+2. Search for:
 
-- A supported GitHub Copilot host with Agent Plugins and local stdio MCP support.
-- Node.js and `npx` available on `PATH`.
-- An Azure sign-in through a supported delegated developer credential such as Azure CLI,
-  Azure PowerShell, Visual Studio Code, or Visual Studio.
+   ```text
+   @agentPlugins azure-resiliency-agent
+   ```
 
-## Development
+3. Select **Azure Resiliency Agent** and choose **Install**.
+4. Open GitHub Copilot Chat and select **AzureResiliencyAgent** from the agent picker.
 
-Load the repository as a local Agent Plugin while developing:
+If Agent Plugins are not visible, confirm that the VS Code setting `chat.plugins.enabled` is
+enabled.
 
-```powershell
-copilot --plugin-dir <path-to-this-repository> --agent azure-resiliency-agent:AzureResiliencyAgent
+### GitHub Copilot CLI
+
+Browse the Awesome Copilot marketplace:
+
+```text
+copilot plugin marketplace browse awesome-copilot
 ```
 
-The committed `mcp.json` uses the published `@azure/mcp` package. Before the Azure MCP release that
-contains the Resiliency Agent tools is available, use a local, uncommitted test override that points
-to the corresponding Azure MCP build.
+Install the plugin:
+
+```text
+copilot plugin install azure-resiliency-agent@awesome-copilot
+```
+
+Start GitHub Copilot CLI with the agent selected:
+
+```text
+copilot --agent azure-resiliency-agent:AzureResiliencyAgent
+```
+
+You can also select **AzureResiliencyAgent** from the interactive `/agent` menu.
+
+## Try it
+
+After selecting **AzureResiliencyAgent**, describe the application or deployment templates you want
+to assess. For example:
+
+- `Assess this App Service, PostgreSQL, and Redis architecture for availability-zone resiliency.`
+- `Generate resilient Terraform for a web application with App Service and PostgreSQL.`
+- `Review the Bicep files in infra/ and correct the zone-resiliency gaps.`
+- `Review this ARM template without changing its existing resources or parameter names.`
+- `Use this architecture diagram to identify resiliency gaps before deployment.`
+
+When local files are needed, the plugin asks for approval before each selected file is shared for
+analysis.
 
 ## Security
 
@@ -56,8 +80,7 @@ Do not report security vulnerabilities through public GitHub issues. See [SECURI
 
 ## Contributing
 
-The repository is currently maintained by the Azure Resiliency Agent team. Contribution guidance
-will be expanded as the plugin approaches public marketplace availability.
+This plugin is maintained by the Azure Resiliency Agent team.
 
 ## License
 

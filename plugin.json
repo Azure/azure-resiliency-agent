@@ -2,7 +2,7 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "azure-resiliency-agent",
   "version": "0.1.0",
-  "description": "Assess and improve the resiliency of Azure workloads from GitHub Copilot.",
+  "description": "Validate Azure application architectures and infrastructure-as-code for resiliency gaps, generate new resilient templates, and review existing templates.",
   "author": {
     "name": "Microsoft Azure",
     "url": "https://azure.microsoft.com"
