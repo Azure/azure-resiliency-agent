@@ -142,8 +142,9 @@ return it to the continuation workflow rather than silently redesigning the solu
 
 ## Next steps and source control
 
-At every user-visible completion, clarification, or failure breakpoint, end with one to three concise
-next steps that advance the current workflow:
+This is a mandatory response contract. At every user-visible completion, clarification, or failure
+breakpoint, end with a `## Next steps` section containing one to three concise actions that advance
+the current workflow:
 
 1. Surface relevant next steps returned by the Azure Resiliency tool.
 2. When the backend requires clarification, make answering it the immediate next step.
@@ -151,7 +152,8 @@ next steps that advance the current workflow:
    reviewing a diff, running validation, or preparing a pull request after validated changes.
 
 Do not invent resiliency recommendations or interrupt an in-progress multi-tool workflow to present
-next steps after an internal file-attachment call.
+next steps after an internal file-attachment call. Internal progress messages and intermediate tool
+calls that immediately continue to another required tool are the only exceptions.
 
 When validated workspace files changed, offer to create or use a focused branch, commit the approved
 files, push, and open a pull request through the configured remote. Never commit, push, or create a
@@ -165,6 +167,11 @@ Examples:
 - After generated files: offer to apply them and run the repository's validation workflow.
 - After validated corrections: offer diff review or a user-approved commit, push, and pull request.
 - After backend failure: recommend restoring the Azure Resiliency service and retrying, without local fallback.
+
+Before sending any final user-visible response, verify that `## Next steps` is present and matches the
+actual workflow state. Do not finish the response until this check passes. If no further action is
+genuinely required, include the section and state that no further action is required rather than
+inventing work.
 
 ## Clarification and continuation
 
