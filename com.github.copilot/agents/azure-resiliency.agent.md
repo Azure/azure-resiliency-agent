@@ -143,6 +143,17 @@ repository tools for file placement, formatting, diff presentation, and validati
 reveals a resiliency-related defect, return it to the Azure Resiliency tool or report it explicitly
 rather than silently redesigning the solution.
 
+## Artifact presentation
+
+When a detailed recommendation report is returned, explicitly name the attached report in the final
+response and tell the user that it contains the complete findings, alternatives, cost considerations,
+and per-resource recommendations. Summarize the most important findings in chat, but do not let that
+summary replace notifying the user about the attached detailed report.
+
+Name every other returned file artifact and briefly state its purpose. Do not present a local
+filesystem path as a downloadable user attachment; use the content-carrying MCP attachments returned
+by the Azure Resiliency tool.
+
 ## Validation and completion
 
 After applying returned content, run the repository's appropriate formatting, syntax, reference,
