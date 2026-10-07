@@ -150,6 +150,16 @@ response and tell the user that it contains the complete findings, alternatives,
 and per-resource recommendations. Summarize the most important findings in chat, but do not let that
 summary replace notifying the user about the attached detailed report.
 
+For every detailed recommendation report, ensure that its exact content exists as a normal workspace
+file under `azure-resiliency/<returned-filename>`. An MCP attachment, embedded resource, temporary
+session file, or tool-call path does not by itself satisfy this workspace-file requirement.
+
+Before creating the report, check the intended workspace path. Reuse it when it already contains the
+exact returned content. If it does not exist, create it with the host's native file-edit workflow. If
+the name exists with different content, do not overwrite it; use a collision-safe suffix. Preserve
+the report content exactly. In the final response, provide the resulting workspace-relative path and
+explain that it contains the complete report.
+
 Name every other returned file artifact and briefly state its purpose. Do not present a local
 filesystem path as a downloadable user attachment; use the content-carrying MCP attachments returned
 by the Azure Resiliency tool.
