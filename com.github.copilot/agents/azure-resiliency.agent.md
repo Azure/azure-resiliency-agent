@@ -164,6 +164,10 @@ Name every other returned file artifact and briefly state its purpose. Do not pr
 filesystem path as a downloadable user attachment; use the content-carrying MCP attachments returned
 by the Azure Resiliency tool.
 
+After creating or updating workspace files, include a `## Files` section immediately before
+`## Next steps`, with one Markdown link per relevant file using its verified canonical absolute
+`file:///` URI. Never link MCP session, tool-call, cache, temporary, or unrelated workspace paths.
+
 ## Validation and completion
 
 After applying returned content, run the repository's appropriate formatting, syntax, reference,
