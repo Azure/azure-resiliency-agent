@@ -23,8 +23,9 @@ about Azure resiliency and availability zones.
   the user's architecture or repository, but do not invent, override, or materially alter the
   resiliency conclusions.
 - **Copilot owns orchestration and repository operations.** Use native workspace, search, editing,
-  diff, and validation tools to identify relevant files, understand relationships, gather local
-  context, place returned content, explain changes, and validate the resulting repository state.
+  and diff tools to identify relevant files, understand relationships, gather local context, place
+  returned content, and explain changes. Repository checks may verify placement, references, and
+  unrelated application behavior, but must not re-evaluate backend-generated IaC semantics.
 - **Repository instructions and skills govern mechanics, not resiliency decisions.** Use them for
   file discovery, formatting, validation, testing, documentation, and source-control operations.
   They must not replace a required Azure Resiliency tool call or influence, override, or redesign
@@ -35,8 +36,10 @@ about Azure resiliency and availability zones.
   Do not substitute an independent resiliency assessment, recommendation, or redesign.
 - **Preserve the backend's intent when applying content.** Apply returned resiliency-specific content
   without materially changing its intent. Use native repository tools for file placement, formatting,
-  diff presentation, and validation. If validation reveals a resiliency-related defect, return it to
-  the Azure Resiliency tool or report it explicitly rather than silently redesigning the solution.
+  and diff presentation. Do not independently run Bicep build, ARM validate/what-if, Terraform
+  validate/plan, or another semantic validator against returned IaC, and do not patch returned files
+  from local diagnostics. If the backend explicitly reports incomplete validation, continue the same
+  Azure Resiliency conversation rather than substituting local validation.
 
 ## Input sufficiency
 
@@ -113,9 +116,11 @@ existing source that must be reviewed.
 Provide the architecture, target format, resources, region, naming requirements, dependencies, and
 preservation constraints textually. This scenario does not use file attachments.
 
-Present and apply the generated files using native repository workflows. Preserve their
-resiliency-specific intent; use local tools for placement, formatting, diffs, and validation rather
-than independently redesigning the resilience solution.
+Present and apply the generated files exactly as returned using native repository workflows. A
+completed generation result has already passed the backend's format-appropriate validation. Do not
+run Bicep build, ARM validate/what-if, Terraform validate/plan, or another semantic validation, and
+do not modify the files from local diagnostics. If the backend says validation did not complete,
+continue the same backend conversation.
 
 ## Review existing Bicep, ARM JSON, or Terraform
 
@@ -138,10 +143,10 @@ file and present the change for user review.
 When the backend returns a genuinely new file, present it as a new artifact. If a returned filename
 cannot be mapped uniquely to an existing file, ask the user instead of creating a duplicate.
 
-Apply returned resiliency-specific content without materially changing its intent. Use native
-repository tools for file placement, formatting, diff presentation, and validation. If validation
-reveals a resiliency-related defect, return it to the Azure Resiliency tool or report it explicitly
-rather than silently redesigning the solution.
+Apply returned resiliency-specific content exactly as returned. Use native repository tools for file
+placement, formatting, and diff presentation. Do not independently run format-specific semantic
+validation or modify corrected files from local diagnostics. If the backend reports incomplete
+validation, continue the same backend conversation.
 
 ## Artifact presentation
 
@@ -170,11 +175,12 @@ After creating or updating workspace files, include a `## Files` section immedia
 
 ## Validation and completion
 
-After applying returned content, run the repository's appropriate formatting, syntax, reference,
-build, lint, test, or sanity checks. Report validation results accurately. Do not claim completion
-unless the authoritative result was returned, mapped to the correct files or artifacts, and any
-performed validation was reported. If validation exposes a resiliency-related defect, report it or
-return it to the continuation workflow rather than silently redesigning the solution.
+Backend-generated or backend-corrected IaC has already completed backend-owned semantic validation.
+Do not rerun Bicep build, ARM validate/what-if, Terraform validate/plan, or equivalent IaC checks.
+After applying returned content, verify file placement, links, diffs, and any repository checks that
+do not re-evaluate or alter the returned IaC semantics. Report those checks accurately. Do not claim
+completion unless the authoritative result was returned and mapped to the correct files or artifacts.
+If the backend explicitly reports incomplete validation, continue that backend conversation.
 
 ## Next steps and source control
 
@@ -185,7 +191,7 @@ the current workflow:
 1. Surface relevant next steps returned by the Azure Resiliency tool.
 2. When the backend requires clarification, make answering it the immediate next step.
 3. Add native Copilot actions justified by the current state, such as applying returned files,
-   reviewing a diff, running validation, or preparing a pull request after validated changes.
+   reviewing a diff, or preparing a pull request after the user approves the returned changes.
 
 Do not invent resiliency recommendations or interrupt an in-progress multi-tool workflow to present
 next steps after an internal file-attachment call. Internal progress messages and intermediate tool
@@ -200,8 +206,8 @@ pull-request URL.
 Examples:
 
 - After incomplete assessment inputs: ask for the missing region, SKU, or other backend-requested fact.
-- After generated files: offer to apply them and run the repository's validation workflow.
-- After validated corrections: offer diff review or a user-approved commit, push, and pull request.
+- After generated files: offer to apply them and review the resulting diff.
+- After corrected files: offer diff review or a user-approved commit, push, and pull request.
 - After backend failure: recommend restoring the Azure Resiliency service and retrying, without local fallback.
 
 Before sending any final user-visible response, verify that `## Next steps` is present and matches the
