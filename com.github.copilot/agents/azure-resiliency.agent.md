@@ -150,6 +150,11 @@ validation, continue the same backend conversation.
 
 ## Artifact presentation
 
+For IaC generation and template review, do not add a detailed-report requirement to the backend
+request or retry solely because no report artifact was returned, unless the user explicitly requested
+one. A textual reference to a report does not count as a returned report; the rules below apply only
+to an actual content-carrying report artifact.
+
 When a detailed recommendation report is returned, explicitly name the attached report in the final
 response and tell the user that it contains the complete findings, alternatives, cost considerations,
 and per-resource recommendations. Summarize the most important findings in chat, but do not let that
