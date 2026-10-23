@@ -34,10 +34,27 @@ scoped to the focused capabilities included with this plugin.
 ## Before you start
 
 - You need access to GitHub Copilot and Agent Plugins in your selected experience.
-- [Node.js](https://nodejs.org/) must be installed with `npx` available on your `PATH`. The first
-  Azure Resiliency tool call downloads the pinned Azure MCP package from npm.
+- Install [Node.js 22 or later](https://nodejs.org/), with `node`, `npm`, and `npx` available on
+  your `PATH`. The first Azure Resiliency tool call downloads the pinned Azure MCP package and the
+  matching platform binary from npm.
+- Azure MCP supports Windows, Linux, and macOS on x64 and ARM64. The npm package includes the Azure
+  MCP binary and its runtime dependencies, so a .NET SDK isn't required.
+- Make an Azure credential available through Visual Studio Code, Azure CLI (`az login`), Azure
+  PowerShell, Azure Developer CLI, Visual Studio, environment credentials, or interactive browser
+  authentication.
 - Open the application repository or folder you want to assess. This lets the agent discover related
   templates, modules, parameter files, and architecture documents.
+
+### Network access
+
+Azure MCP uses outbound HTTPS on port 443. If your organization restricts outbound traffic, allow
+access to:
+
+- Your configured npm registry, normally `registry.npmjs.org`, to download Azure MCP on first use or
+  after a package update.
+- `login.microsoftonline.com` for Microsoft Entra authentication.
+- `management.azure.com` to determine the Azure data boundary for the default tenant.
+- `agent.public.resiliencemanagement.azure.com` to call Azure Resiliency Agent.
 
 ## Installation
 
