@@ -14,25 +14,30 @@ Resiliency service owns the resiliency findings, recommendations, and generated 
 
 [Learn more about Azure Resiliency Agent in GitHub Copilot.](https://aka.ms/AzureResiliencyAgentInGithubCopilot)
 
-## Supported harnesses
+## Where you can use it
 
-| GitHub Copilot harness | How to use the plugin |
-| --- | --- |
-| GitHub Copilot Chat in Visual Studio Code | Install the Agent Plugin, open Copilot Chat, and select **AzureResiliencyAgent** from the agent picker. |
-| GitHub Copilot CLI (local terminal) | Install the plugin and select **AzureResiliencyAgent** from `/agent`, or start Copilot CLI with the agent name. |
+- **GitHub Copilot in Visual Studio Code** for repository and file-based workflows.
+- **GitHub Copilot CLI** for local terminal workflows.
 
 The plugin currently supports Azure public cloud.
+
+## How it works
+
+The plugin uses Azure MCP to connect GitHub Copilot to Azure Resiliency Agent. Behind the scenes,
+Azure MCP uses the default Azure tenant to determine the appropriate Azure data boundary and then
+sends the request to the hosted Azure Resiliency Agent.
+
+This is the same Azure Resiliency Agent experience available through
+[Microsoft Copilot in Azure](https://learn.microsoft.com/en-us/azure/copilot/resiliency-agent),
+scoped to the focused capabilities included with this plugin.
 
 ## Before you start
 
 - You need access to GitHub Copilot and Agent Plugins in your selected experience.
 - [Node.js](https://nodejs.org/) must be installed with `npx` available on your `PATH`. The first
   Azure Resiliency tool call downloads the pinned Azure MCP package from npm.
-- Sign in to Azure when prompted. Your own Microsoft Entra identity and Azure RBAC permissions apply
-  to Azure operations performed for the conversation.
 - Open the application repository or folder you want to assess. This lets the agent discover related
   templates, modules, parameter files, and architecture documents.
-- Do not share credentials, secrets, local environment files, or unrelated files with the agent.
 
 ## Installation
 
@@ -66,6 +71,18 @@ copilot --agent azure-resiliency-agent:AzureResiliencyAgent
 ```
 
 You can also select **AzureResiliencyAgent** from the interactive `/agent` menu.
+
+## Start a conversation
+
+After installation:
+
+1. Open the repository or folder you want to assess.
+2. Open GitHub Copilot Chat or GitHub Copilot CLI and select **AzureResiliencyAgent**.
+3. Ask a resiliency question, describe an architecture, or select the templates you want reviewed.
+4. If files are needed, review each displayed path and choose **Share**.
+5. Answer any clarification questions, then review the proposed and applied changes.
+
+![Select AzureResiliencyAgent, approve the required files, confirm the proposed changes, and review the updated files](docs/images/azure-resiliency-agent-demo.gif)
 
 ## What's included
 
@@ -133,16 +150,14 @@ For file-based reviews, the agent:
 4. Presents the findings and returned files for your review.
 5. Applies corrected content to an existing file only when the mapping is unambiguous.
 
-## File sharing and consent
+## Using local files
 
-Local files are never shared solely because they are visible in the workspace. For every required
-file, the plugin displays the exact path, file type, and size and waits for your approval.
+When an assessment or template review needs a local file, the agent shows you the file it wants to
+use and asks for your approval. Nothing is shared until you choose **Share**.
 
-After approval, Azure MCP creates a short-lived, process-local snapshot and returns an opaque
-attachment ID. The review or assessment tool uses that ID to send the file to the hosted Azure
-Resiliency service. The file attachment tool does not return the file content to the model.
-
-Review the requested paths carefully and reject any file that is unrelated or sensitive.
+Only the files you approve are sent to Azure Resiliency Agent for the current assessment or review.
+You can decline any request. Before sharing, confirm that the displayed file is relevant and does
+not contain credentials or other sensitive information.
 
 ## Results and generated files
 
