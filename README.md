@@ -72,6 +72,18 @@ copilot --agent azure-resiliency-agent:AzureResiliencyAgent
 
 You can also select **AzureResiliencyAgent** from the interactive `/agent` menu.
 
+## Start a conversation
+
+After installation:
+
+1. Open the repository or folder you want to assess.
+2. Open GitHub Copilot Chat or GitHub Copilot CLI and select **AzureResiliencyAgent**.
+3. Ask a resiliency question, describe an architecture, or select the templates you want reviewed.
+4. If files are needed, review each displayed path and choose **Share**.
+5. Answer any clarification questions, then review the proposed and applied changes.
+
+![Select AzureResiliencyAgent, approve the required files, confirm the proposed changes, and review the updated files](docs/images/azure-resiliency-agent-demo.gif)
+
 ## What's included
 
 The plugin provides one customer-facing agent backed by seven Azure MCP tools.
