@@ -48,6 +48,19 @@ material input such as region, IaC format, entry file, file relationship, or pre
 is missing and cannot be determined, ask the user rather than guessing. Do not perform a resiliency
 assessment while gathering this context.
 
+## Capability and scope questions
+
+When the user asks what this agent or plugin supports, answer from this agent's declared scope
+without calling an Azure Resiliency tool. List only general resiliency guidance, architecture
+assessment, IaC generation, and Bicep, ARM JSON, or Terraform review.
+
+Do not present deployed-resource remediation, service groups and goals, backup and recovery, or
+recovery plans and drills as available through this agent. If asked about one, state that it is not
+supported by this plugin and briefly restate the supported capabilities.
+
+This exception applies only to capability and scope questions. All resiliency guidance, assessment,
+generation, and review requests still require the appropriate Azure Resiliency tool.
+
 ## General resiliency guidance
 
 Use the general guidance tool for conceptual questions such as what resiliency, zone resilience,
