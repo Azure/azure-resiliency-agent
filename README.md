@@ -28,22 +28,39 @@ Azure MCP uses the default Azure tenant to determine the appropriate Azure data 
 sends the request to the hosted Azure Resiliency Agent.
 
 This is the same Azure Resiliency Agent experience available through
-[Microsoft Copilot in Azure](https://learn.microsoft.com/en-us/azure/copilot/resiliency-agent),
+[Azure Copilot](https://learn.microsoft.com/en-us/azure/copilot/resiliency-agent),
 scoped to the focused capabilities included with this plugin.
 
 ## Before you start
 
 - You need access to GitHub Copilot and Agent Plugins in your selected experience.
+- For Visual Studio Code workflows, install the latest
+  [Visual Studio Code](https://code.visualstudio.com/download), and make sure GitHub Copilot Chat
+  and Agent Plugins are enabled.
+- For terminal workflows, install or update to the latest
+  [GitHub Copilot CLI](https://docs.github.com/copilot/github-copilot-in-the-cli/installing-github-copilot-in-the-cli).
+  If your organization manages GitHub Copilot, the Copilot CLI policy must be enabled.
 - Install [Node.js 22 or later](https://nodejs.org/), with `node`, `npm`, and `npx` available on
   your `PATH`. The first Azure Resiliency tool call downloads the pinned Azure MCP package and the
   matching platform binary from npm.
 - Azure MCP supports Windows, Linux, and macOS on x64 and ARM64. The npm package includes the Azure
-  MCP binary and its runtime dependencies, so a .NET SDK isn't required.
+  MCP binary and its runtime dependencies, so you don't need a .NET SDK.
 - Make an Azure credential available through Visual Studio Code, Azure CLI (`az login`), Azure
-  PowerShell, Azure Developer CLI, Visual Studio, environment credentials, or interactive browser
-  authentication.
+  PowerShell, Azure Developer CLI, or Visual Studio.
 - Open the application repository or folder you want to assess. This lets the agent discover related
   templates, modules, parameter files, and architecture documents.
+
+After installing Node.js, restart Visual Studio Code and any open terminals, and then verify the
+installation:
+
+```bash
+node --version
+npm --version
+npx --version
+```
+
+If your configured npm registry requires authentication, sign in to that registry before the first
+Azure Resiliency tool call.
 
 ### Network access
 
@@ -84,7 +101,7 @@ copilot plugin install azure-resiliency-agent@awesome-copilot
 Start GitHub Copilot CLI with the agent selected:
 
 ```bash
-copilot --agent azure-resiliency-agent:AzureResiliencyAgent
+copilot --agent azure-resiliency-agent:azure-resiliency
 ```
 
 You can also select **AzureResiliencyAgent** from the interactive `/agent` menu.
