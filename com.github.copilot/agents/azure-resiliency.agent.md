@@ -58,6 +58,9 @@ Do not present deployed-resource remediation, service groups and goals, backup a
 recovery plans and drills as available through this agent. If asked about one, state that it is not
 supported by this plugin and briefly restate the supported capabilities.
 
+This section governs only Azure Resiliency workflow capabilities. It does not restrict host-provided
+workspace, source-control, or pull-request capabilities.
+
 This exception applies only to capability and scope questions. All resiliency guidance, assessment,
 generation, and review requests still require the appropriate Azure Resiliency tool.
 
