@@ -6,7 +6,8 @@
 
 Azure Resiliency Agent helps you understand Azure resiliency, assess an application architecture,
 generate new zone-resilient infrastructure as code, and review existing Bicep, ARM JSON, or
-Terraform before deployment.
+Terraform before deployment. It also inspects and manages ordinary Azure Service Groups,
+zonal-resiliency goals, goal-resource participation, SLIs, and Standard Usage Plans.
 
 The plugin combines a GitHub Copilot agent with the authoritative Azure Resiliency tools in Azure
 MCP. The agent gathers repository context and orchestrates the workflow; the hosted Azure
@@ -120,7 +121,7 @@ After installation:
 
 ## What's included
 
-The plugin provides one customer-facing agent backed by seven Azure MCP tools.
+The plugin provides one customer-facing agent backed by thirteen Azure MCP tools.
 
 | Azure MCP tool | What it does |
 | --- | --- |
@@ -131,6 +132,12 @@ The plugin provides one customer-facing agent backed by seven Azure MCP tools.
 | `resiliencyagent_bicep_review` | Reviews existing Bicep, local modules, and parameter files and returns corrected content. |
 | `resiliencyagent_arm_review` | Reviews existing ARM JSON templates and parameter files and returns corrected content. |
 | `resiliencyagent_terraform_review` | Reviews existing Terraform root modules, local child modules, variables, and provider constraints and returns corrected content. |
+| `resiliencyagent_goals_get` | Reads goal assignments, cross-Service Group goal status, goal-resource participation, and Availability or Latency SLIs. |
+| `resiliencyagent_goals_manage` | Assigns or deletes a zonal-resiliency goal, attaches SLIs, includes or excludes resources, and refreshes goal resources with confirmation. |
+| `resiliencyagent_usage-plan_get` | Lists or finds Usage Plans and checks Service Group enrollment status. |
+| `resiliencyagent_usage-plan_manage` | Creates or attaches a Standard Usage Plan with backend-owned confirmation. |
+| `resiliencyagent_service-group_get` | Reads Service Group existence, metadata, criticality, child-group state, and members. |
+| `resiliencyagent_service-group_manage` | Creates Service Groups, adds validated resources or scopes, nests groups, and updates criticality with confirmation. |
 
 ## Common workflows
 
@@ -184,6 +191,48 @@ For file-based reviews, the agent:
 4. Presents the findings and returned files for your review.
 5. Applies corrected content to an existing file only when the mapping is unambiguous.
 
+### Inspect or manage a zonal-resiliency goal
+
+Name the exact Service Group and requested operation:
+
+```text
+Show the goal assignment status and resource participation for ContosoAppFleetSG.
+```
+
+```text
+Assign a zonal-resiliency goal to ContosoAppFleetSG.
+```
+
+The backend asks for explicit confirmation before supported mutations. Cross-Service Group status
+reads are supported, but cross-Service Group mutations and non-zonal goals are not.
+
+### Inspect or manage a Service Group
+
+```text
+Show the members and criticality of ContosoAppFleetSG.
+```
+
+```text
+Create a root Service Group named contoso-prod with these validated resource IDs.
+```
+
+Ordinary creation, resource addition, direct scopes, nesting, and criticality updates are supported.
+Automatic application discovery and arrangement planning are not included in this plugin release.
+
+### Inspect or manage a Standard Usage Plan
+
+```text
+Show whether ContosoAppFleetSG is enrolled in a Standard Usage Plan.
+```
+
+```text
+Create a Standard Usage Plan named contoso-resilience in the specified subscription and resource
+group, then attach ContosoAppFleetSG.
+```
+
+Usage Plans are needed only for premium recovery-plan and drill capabilities. Goals,
+recommendations, and zonal-resiliency insights do not require one.
+
 ## Using local files
 
 When an assessment or template review needs a local file, the agent shows you the file it wants to
@@ -202,12 +251,15 @@ Depending on the request, the Azure Resiliency service may return:
 - A detailed recommendation report.
 - New Bicep, ARM JSON, or Terraform.
 - Corrected content for existing infrastructure-as-code files.
+- Service Group member and resource-resolution reports.
+- Goal-status and goal-resource participation reports.
 - Suggested next steps for continuing the same conversation.
 
-When a detailed recommendation report is returned, the agent preserves its exact content in the
-workspace under `azure-resiliency/` and provides a clickable link. Generated and corrected templates
-are presented through native file and diff workflows so you can review them before committing or
-deploying anything.
+New generated files, detailed reports, and structured Service Group and Goals results are preserved
+as timestamped artifact sets under `azure-resiliency/`. Multi-file templates keep their canonical
+filenames and relative references in one folder. Corrected review content is applied to matching
+existing files without creating duplicate source copies. Structured results use readable Markdown
+with absolute Azure Portal links, and the agent provides clickable file links for review.
 
 ## Example prompts
 
